@@ -87,5 +87,60 @@ void main() {
         });
       });
     });
+    group('isAdjacent', () {
+      test('returns true for vertical adjacency above', () {
+        final coord = Coord(x: 3, y: 5);
+        final adjacent = Coord(x: 3, y: 6);
+        expect(coord.isAdjacent(adjacent), isTrue);
+      });
+
+      test('returns true for vertical adjacency below', () {
+        final coord = Coord(x: 3, y: 5);
+        final adjacent = Coord(x: 3, y: 4);
+        expect(coord.isAdjacent(adjacent), isTrue);
+      });
+
+      test('returns true for horizontal adjacency right', () {
+        final coord = Coord(x: 3, y: 5);
+        final adjacent = Coord(x: 4, y: 5);
+        expect(coord.isAdjacent(adjacent), isTrue);
+      });
+
+      test('returns true for horizontal adjacency left', () {
+        final coord = Coord(x: 3, y: 5);
+        final adjacent = Coord(x: 2, y: 5);
+        expect(coord.isAdjacent(adjacent), isTrue);
+      });
+
+      test('returns false for top left diagonal adjacency', () {
+        final coord = Coord(x: 3, y: 5);
+        final nonAdjacent = Coord(x: 2, y: 4);
+        expect(coord.isAdjacent(nonAdjacent), isFalse);
+      });
+
+      test('returns false for top right diagonal adjacency', () {
+        final coord = Coord(x: 3, y: 5);
+        final nonAdjacent = Coord(x: 4, y: 4);
+        expect(coord.isAdjacent(nonAdjacent), isFalse);
+      });
+
+      test('returns false for bottom left diagonal adjacency', () {
+        final coord = Coord(x: 3, y: 5);
+        final nonAdjacent = Coord(x: 2, y: 6);
+        expect(coord.isAdjacent(nonAdjacent), isFalse);
+      });
+
+      test('returns false for bottom right diagonal adjacency', () {
+        final coord = Coord(x: 3, y: 5);
+        final nonAdjacent = Coord(x: 4, y: 6);
+        expect(coord.isAdjacent(nonAdjacent), isFalse);
+      });
+
+      test('returns false for non-adjacent coordinates', () {
+        final coord = Coord(x: 3, y: 5);
+        final nonAdjacent = Coord(x: 5, y: 7);
+        expect(coord.isAdjacent(nonAdjacent), isFalse);
+      });
+    });
   });
 }
