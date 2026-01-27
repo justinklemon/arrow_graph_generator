@@ -19,7 +19,7 @@ class Coord {
   /// If the y values are the same, it checks if the x values differ by exactly 1.
   bool isAdjacent(Coord other) {
     return (x == other.x && (y - other.y).abs() == 1) ||
-           (y == other.y && (x - other.x).abs() == 1);
+        (y == other.y && (x - other.x).abs() == 1);
   }
 
   @override
@@ -35,5 +35,5 @@ class Coord {
   }
 
   @override
-  int get hashCode => x.hashCode ^ y.hashCode;
+  int get hashCode => Object.hash(x, y);
 }

@@ -142,5 +142,39 @@ void main() {
         expect(coord.isAdjacent(nonAdjacent), isFalse);
       });
     });
+    group('hashCode', () {
+      test('same coordinates have same hashCode', () {
+        final coord1 = Coord(x: 3, y: 5);
+        final coord2 = Coord(x: 3, y: 5);
+        expect(coord1.hashCode, coord2.hashCode);
+      });
+      test('different coordinates have different hashCodes', () {
+        final coord1 = Coord(x: 3, y: 5);
+        final coord2 = Coord(x: 4, y: 5);
+        final coord3 = Coord(x: 3, y: 6);
+        expect(coord1.hashCode == coord2.hashCode, isFalse);
+        expect(coord1.hashCode == coord3.hashCode, isFalse);
+      });
+      test('flipped coordinates have different hashCodes', () {
+        final coord1 = Coord(x: 3, y: 5);
+        final coord2 = Coord(x: 5, y: 3);
+        expect(coord1.hashCode == coord2.hashCode, isFalse);
+      });
+      test('negative coordinates have different hashCodes then the positive', () {
+        final coord1 = Coord(x: -3, y: -5);
+        final coord2 = Coord(x: 3, y: 5);
+        expect(coord1.hashCode == coord2.hashCode, isFalse);
+      });
+      test('negative coordinates have consistent hashCodes', () {
+        final coord1 = Coord(x: -3, y: -5);
+        final coord2 = Coord(x: -3, y: -5);
+        expect(coord1.hashCode, coord2.hashCode);
+      });
+      test('zero coordinates have consistent hashCodes', () {
+        final coord1 = Coord(x: 0, y: 0);
+        final coord2 = Coord(x: 0, y: 0);
+        expect(coord1.hashCode, coord2.hashCode);
+      });
+    });
   });
 }
