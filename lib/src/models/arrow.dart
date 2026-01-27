@@ -5,6 +5,8 @@ import 'coord.dart' show Coord;
 
 class Arrow {
   final List<Coord> path;
+  /// Use a set to efficiently check if coords are in the arrow path.
+  final Set<Coord> _coords;
 
   /// Each coordinate in the path represents a segment of the arrow.
   /// The first coordinate is the starting point, and each subsequent
@@ -27,7 +29,8 @@ class Arrow {
         path.length >= 2,
         'Path must contain at least two coordinates to form an arrow.',
       ),
-      path = List.unmodifiable(path) {
+      path = List.unmodifiable(path),
+      _coords = Set<Coord>.from(path) {
     for (int i = 1; i < path.length; i++) {
       final prev = path[i - 1];
       final curr = path[i];
@@ -40,8 +43,7 @@ class Arrow {
       }
     }
     // Make sure there are no duplicate coordinates in the path
-    final uniqueCoords = path.toSet();
-    if (uniqueCoords.length != path.length) {
+    if (_coords.length != path.length) {
       throw ArgumentError(
         'Path contains duplicate coordinates, which is not allowed.',
       );
@@ -67,6 +69,12 @@ class Arrow {
     } else {
       return ArrowDirection.up;
     }
+  }
+
+  /// Checks if the given coordinate is part of the arrow's path.
+  bool containsCoord(Coord coord) {
+    // Use the set for efficient lookup, rather than searching the list.
+    return _coords.contains(coord);
   }
 
   @override

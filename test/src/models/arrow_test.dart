@@ -80,6 +80,29 @@ void main() {
         expect(arrow.direction, ArrowDirection.up);
       });
     });
+
+    group('containsCoord method tests', () {
+      test('containsCoord returns true for coordinates in path', () {
+        final path = [
+          Coord(x: 0, y: 0),
+          Coord(x: 0, y: 1),
+          Coord(x: 1, y: 1),
+        ];
+        final arrow = Arrow(path: path);
+        expect(arrow.containsCoord(Coord(x: 0, y: 0)), isTrue);
+        expect(arrow.containsCoord(Coord(x: 0, y: 1)), isTrue);
+        expect(arrow.containsCoord(Coord(x: 1, y: 1)), isTrue);
+      });
+      test('containsCoord returns false for coordinates not in path', () {
+        final path = [
+          Coord(x: 0, y: 0),
+          Coord(x: 0, y: 1),
+        ];
+        final arrow = Arrow(path: path);
+        expect(arrow.containsCoord(Coord(x: 1, y: 1)), isFalse);
+        expect(arrow.containsCoord(Coord(x: -1, y: 0)), isFalse);
+      });
+    });
     test('toString returns correct format', () {
       final path = [
         Coord(x: 0, y: 0),
