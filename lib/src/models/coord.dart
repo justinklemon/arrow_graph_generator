@@ -12,6 +12,13 @@ class Coord {
   Coord get topNeighbor => Coord(x: x, y: y - 1);
   Coord get bottomNeighbor => Coord(x: x, y: y + 1);
 
+  Iterable<Coord> get neighbors => [
+        leftNeighbor,
+        rightNeighbor,
+        topNeighbor,
+        bottomNeighbor,
+      ];
+
   /// Checks if this coordinate is adjacent to another coordinate
   /// either horizontally or vertically. Diagonal adjacency is not considered.
   /// This is done by comparing the x and y values of both coordinates.

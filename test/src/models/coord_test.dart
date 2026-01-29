@@ -86,6 +86,17 @@ void main() {
           expect(bottomNeighbor, Coord(x: 3, y: -4));
         });
       });
+      group('neighbors', () {
+        test('returns all four neighbors', () {
+          final coord = Coord(x: 3, y: 5);
+          final neighbors = coord.neighbors.toList();
+          expect(neighbors.length, 4);
+          expect(neighbors, contains(Coord(x: 2, y: 5))); // left
+          expect(neighbors, contains(Coord(x: 4, y: 5))); // right
+          expect(neighbors, contains(Coord(x: 3, y: 4))); // top
+          expect(neighbors, contains(Coord(x: 3, y: 6))); // bottom
+        });
+      });
     });
     group('isAdjacent', () {
       test('returns true for vertical adjacency above', () {
