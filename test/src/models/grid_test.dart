@@ -1,22 +1,28 @@
 import 'package:arrow_graph_generator/src/models/arrow_direction.dart';
 import 'package:arrow_graph_generator/src/models/coord.dart';
 import 'package:arrow_graph_generator/src/models/grid.dart' show Grid;
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Grid tests', () {
     test('allCoords is unmodifiable', () {
-      final Grid grid = Grid(width: 3, height: 3, isSolid: true, allCoords: {
-        Coord(x: 0, y: 0),
-        Coord(x: 1, y: 0),
-        Coord(x: 2, y: 0),
-        Coord(x: 0, y: 1),
-        Coord(x: 1, y: 1),
-        Coord(x: 2, y: 1),
-        Coord(x: 0, y: 2),
-        Coord(x: 1, y: 2),
-        Coord(x: 2, y: 2),
-      });
+      final Grid grid = Grid(
+        width: 3,
+        height: 3,
+        isSolid: true,
+        allCoords: {
+          Coord(x: 0, y: 0),
+          Coord(x: 1, y: 0),
+          Coord(x: 2, y: 0),
+          Coord(x: 0, y: 1),
+          Coord(x: 1, y: 1),
+          Coord(x: 2, y: 1),
+          Coord(x: 0, y: 2),
+          Coord(x: 1, y: 2),
+          Coord(x: 2, y: 2),
+        },
+      );
       expect(
         () => grid.allCoords.add(Coord(x: 3, y: 3)),
         throwsUnsupportedError,
@@ -27,12 +33,17 @@ void main() {
       );
     });
     test('isValidCoord works correctly', () {
-      final Grid grid = Grid(width: 2, height: 2, isSolid: true, allCoords: {
-        Coord(x: 0, y: 0),
-        Coord(x: 1, y: 0),
-        Coord(x: 0, y: 1),
-        Coord(x: 1, y: 1),
-      });
+      final Grid grid = Grid(
+        width: 2,
+        height: 2,
+        isSolid: true,
+        allCoords: {
+          Coord(x: 0, y: 0),
+          Coord(x: 1, y: 0),
+          Coord(x: 0, y: 1),
+          Coord(x: 1, y: 1),
+        },
+      );
       expect(grid.isValidCoord(Coord(x: 0, y: 0)), isTrue);
       expect(grid.isValidCoord(Coord(x: 1, y: 1)), isTrue);
       expect(grid.isValidCoord(Coord(x: 2, y: 2)), isFalse);
@@ -104,60 +115,58 @@ void main() {
             );
           }
         });
-        test('correctly computes coords to edge in all directions from center', () {
-          final start = Coord(x: 3, y: 3); // center of the grid
-          final upCoords = grid.coordsToEdge(start, ArrowDirection.up);
-          final downCoords = grid.coordsToEdge(start, ArrowDirection.down);
-          final leftCoords = grid.coordsToEdge(start, ArrowDirection.left);
-          final rightCoords = grid.coordsToEdge(start, ArrowDirection.right);
+        test(
+          'correctly computes coords to edge in all directions from center',
+          () {
+            final start = Coord(x: 3, y: 3); // center of the grid
+            final upCoords = grid.coordsToEdge(start, ArrowDirection.up);
+            final downCoords = grid.coordsToEdge(start, ArrowDirection.down);
+            final leftCoords = grid.coordsToEdge(start, ArrowDirection.left);
+            final rightCoords = grid.coordsToEdge(start, ArrowDirection.right);
 
-          expect(upCoords, [
-            Coord(x: 3, y: 2),
-            Coord(x: 3, y: 1),
-            Coord(x: 3, y: 0),
-          ]);
-          expect(downCoords, [
-            Coord(x: 3, y: 4),
-            Coord(x: 3, y: 5),
-            Coord(x: 3, y: 6),
-          ]);
-          expect(leftCoords, [
-            Coord(x: 2, y: 3),
-            Coord(x: 1, y: 3),
-            Coord(x: 0, y: 3),
-          ]);
-          expect(rightCoords, [
-            Coord(x: 4, y: 3),
-            Coord(x: 5, y: 3),
-            Coord(x: 6, y: 3),
-          ]);
-        });
-        test('correctly computes coords to edge from off-center coordinate', () {
-          final start = Coord(x: 5, y: 3);
-          final upCoords = grid.coordsToEdge(start, ArrowDirection.up);
-          final downCoords = grid.coordsToEdge(start, ArrowDirection.down);
-          final leftCoords = grid.coordsToEdge(start, ArrowDirection.left);
-          final rightCoords = grid.coordsToEdge(start, ArrowDirection.right);
+            expect(upCoords, [
+              Coord(x: 3, y: 2),
+              Coord(x: 3, y: 1),
+              Coord(x: 3, y: 0),
+            ]);
+            expect(downCoords, [
+              Coord(x: 3, y: 4),
+              Coord(x: 3, y: 5),
+              Coord(x: 3, y: 6),
+            ]);
+            expect(leftCoords, [
+              Coord(x: 2, y: 3),
+              Coord(x: 1, y: 3),
+              Coord(x: 0, y: 3),
+            ]);
+            expect(rightCoords, [
+              Coord(x: 4, y: 3),
+              Coord(x: 5, y: 3),
+              Coord(x: 6, y: 3),
+            ]);
+          },
+        );
+        test(
+          'correctly computes coords to edge from off-center coordinate',
+          () {
+            final start = Coord(x: 5, y: 3);
+            final upCoords = grid.coordsToEdge(start, ArrowDirection.up);
+            final downCoords = grid.coordsToEdge(start, ArrowDirection.down);
+            final leftCoords = grid.coordsToEdge(start, ArrowDirection.left);
+            final rightCoords = grid.coordsToEdge(start, ArrowDirection.right);
 
-          expect(upCoords, [
-            Coord(x: 5, y: 2),
-            Coord(x: 5, y: 1),
-          ]);
-          expect(downCoords, [
-            Coord(x: 5, y: 4),
-            Coord(x: 5, y: 5),
-          ]);
-          expect(leftCoords, [
-            Coord(x: 4, y: 3),
-            Coord(x: 3, y: 3),
-            Coord(x: 2, y: 3),
-            Coord(x: 1, y: 3),
-            Coord(x: 0, y: 3),
-          ]);
-          expect(rightCoords, [
-            Coord(x: 6, y: 3),
-          ]);
-        });
+            expect(upCoords, [Coord(x: 5, y: 2), Coord(x: 5, y: 1)]);
+            expect(downCoords, [Coord(x: 5, y: 4), Coord(x: 5, y: 5)]);
+            expect(leftCoords, [
+              Coord(x: 4, y: 3),
+              Coord(x: 3, y: 3),
+              Coord(x: 2, y: 3),
+              Coord(x: 1, y: 3),
+              Coord(x: 0, y: 3),
+            ]);
+            expect(rightCoords, [Coord(x: 6, y: 3)]);
+          },
+        );
         test('coordsToEdge from edge coordinate returns empty list', () {
           final start = Coord(x: 6, y: 3); // right edge
           final resultLeft = grid.coordsToEdge(start, ArrowDirection.left);
@@ -223,24 +232,26 @@ void main() {
                 expectedCoords.add(Coord(x: x, y: y));
               }
             }
-            expect(grid.allCoords, expectedCoords);
+            expect(setEquals(grid.allCoords, expectedCoords), isTrue);
           },
         );
         test('allCoords works for larger grids', () {
           final width = 1000;
           final height = 1000;
           final grid = Grid.rectangle(width: width, height: height);
-          expect(grid.allCoords.length, width * height);
-          // Spot check a few coordinates, comparing all coords would be too computationally expensive
-          expect(grid.allCoords.contains(Coord(x: 0, y: 0)), isTrue);
-          expect(grid.allCoords.contains(Coord(x: 999, y: 999)), isTrue);
-          expect(grid.allCoords.contains(Coord(x: 500, y: 500)), isTrue);
-          expect(grid.allCoords.contains(Coord(x: 1000, y: 1000)), isFalse);
+          final expectedCoords = <Coord>{};
+          for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+              expectedCoords.add(Coord(x: x, y: y));
+            }
+          }
+          // Use setEquals to compare as this is much faster than expect(a, b)
+          expect(setEquals(expectedCoords, grid.allCoords), isTrue);
         });
         test('allCoords works for 1x1 grid', () {
           final grid = Grid.rectangle(width: 1, height: 1);
           final expectedCoords = {Coord(x: 0, y: 0)};
-          expect(grid.allCoords, expectedCoords);
+          expect(setEquals(grid.allCoords, expectedCoords), isTrue);
         });
         test('rectangle allCoords is unmodifiable', () {
           final grid = Grid.rectangle(width: 2, height: 2);
