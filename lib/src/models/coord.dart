@@ -29,6 +29,36 @@ class Coord {
         (y == other.y && (x - other.x).abs() == 1);
   }
 
+  /// Calculates the next coordinate in the same direction as from [previous] to this coordinate.
+  /// For example, if [previous] is (2,3) and this coordinate is (2,4),
+  /// the next coordinate would be (2,5) (moving down).
+  /// If [previous] is (5,5) and this coordinate is (4,5),
+  /// the next coordinate would be (3,5) (moving left).
+  /// If the coordinates are not adjacent either horizontally or vertically,
+  /// an ArgumentError is thrown.
+  /// If the coordinates are the same, an ArgumentError is also thrown.
+  Coord calculateNextCoord(Coord previous){
+    if (this == previous) {
+      throw ArgumentError(
+        'Cannot calculate next coordinate: $previous and $this are the same.',
+      );
+    }
+    if (!isAdjacent(previous)) {
+      throw ArgumentError(
+        'Cannot calculate next coordinate: $previous and $this are not adjacent horizontally or vertically.',
+      );
+    }
+    if (x == previous.x) {
+      // Vertical movement
+      int deltaY = y - previous.y;
+      return Coord(x: x, y: y + deltaY);
+    } else {
+      // Horizontal movement
+      int deltaX = x - previous.x;
+      return Coord(x: x + deltaX, y: y);
+    } 
+  }
+
   @override
   String toString() {
     return 'Coord(x: $x, y: $y)';

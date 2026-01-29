@@ -153,6 +153,82 @@ void main() {
         expect(coord.isAdjacent(nonAdjacent), isFalse);
       });
     });
+    group('calculateNextCoord', () {
+      test('calculates next coordinate moving down', () {
+        final previous = Coord(x: 2, y: 3);
+        final current = Coord(x: 2, y: 4);
+        final next = current.calculateNextCoord(previous);
+        expect(next, Coord(x: 2, y: 5));
+      });
+      test('calculates next coordinate moving up', () {
+        final previous = Coord(x: 2, y: 4);
+        final current = Coord(x: 2, y: 3);
+        final next = current.calculateNextCoord(previous);
+        expect(next, Coord(x: 2, y: 2));
+      });
+      test('calculates next coordinate moving right', () {
+        final previous = Coord(x: 5, y: 5);
+        final current = Coord(x: 6, y: 5);
+        final next = current.calculateNextCoord(previous);
+        expect(next, Coord(x: 7, y: 5));
+      });
+      test('calculates next coordinate moving left', () {
+        final previous = Coord(x: 6, y: 5);
+        final current = Coord(x: 5, y: 5);
+        final next = current.calculateNextCoord(previous);
+        expect(next, Coord(x: 4, y: 5));
+      });
+      test('calculates next coordinate moving up with negative values', () {
+        final previous = Coord(x: -2, y: -3);
+        final current = Coord(x: -2, y: -4);
+        final next = current.calculateNextCoord(previous);
+        expect(next, Coord(x: -2, y: -5));
+      });
+      test('calculates next coordinate moving left with negative values', () {
+        final previous = Coord(x: -3, y: -5);
+        final current = Coord(x: -4, y: -5);
+        final next = current.calculateNextCoord(previous);
+        expect(next, Coord(x: -5, y: -5));
+      });
+      test('calculates next coordinate moving down with negative values', () {
+        final previous = Coord(x: -1, y: -4);
+        final current = Coord(x: -1, y: -3);
+        final next = current.calculateNextCoord(previous);
+        expect(next, Coord(x: -1, y: -2));
+      });
+      test('calculates next coordinate moving right with negative values', () {
+        final previous = Coord(x: -4, y: -2);
+        final current = Coord(x: -3, y: -2);
+        final next = current.calculateNextCoord(previous);
+        expect(next, Coord(x: -2, y: -2));
+      });
+      test('calculates next coordinate crossing zero', () {
+        final previous = Coord(x: -1, y: 0);
+        final current = Coord(x: 0, y: 0);
+        final next = current.calculateNextCoord(previous);
+        expect(next, Coord(x: 1, y: 0));
+      });
+      test('throws ArgumentError for non-adjacent coordinates that are aligned vertically', () {
+        final previous = Coord(x: 0, y: -1);
+        final current = Coord(x: 0, y: 1);
+        expect(() => current.calculateNextCoord(previous), throwsArgumentError);
+      });
+      test('throws ArgumentError for non-adjacent coordinates that are aligned horizontally', () {
+        final previous = Coord(x: -1, y: 0);
+        final current = Coord(x: 1, y: 0);
+        expect(() => current.calculateNextCoord(previous), throwsArgumentError);
+      });
+      test('throws ArgumentError for non-aligned coordinates', () {
+        final previous = Coord(x: 2, y: 2);
+        final current = Coord(x: 3, y: 4);
+        expect(() => current.calculateNextCoord(previous), throwsArgumentError);
+      });
+      test('throws ArgumentError for identical coordinates', () {
+        final previous = Coord(x: 2, y: 2);
+        final current = Coord(x: 2, y: 2);
+        expect(() => current.calculateNextCoord(previous), throwsArgumentError);
+      });
+    });
     group('hashCode', () {
       test('same coordinates have same hashCode', () {
         final coord1 = Coord(x: 3, y: 5);
