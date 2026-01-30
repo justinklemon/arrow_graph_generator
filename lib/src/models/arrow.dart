@@ -50,6 +50,9 @@ class Arrow {
     }
   }
 
+  /// The tip (end point) of the arrow.
+  Coord get tip => path.last;
+
   /// The direction the arrow is pointing, determined by the last two coordinates in the path.
   /// If the last coordinate has a greater x value than the second to last,
   /// the direction is right. If it has a smaller x value, the direction is left.
